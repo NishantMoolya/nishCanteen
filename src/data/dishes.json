@@ -1,0 +1,92 @@
+[
+    {
+        "name": "Idly",
+        "price": 30,
+        "description": "Steamed rice cakes served with sambar and chutney.",
+        "ratings": 4.3,
+        "prepare":20,
+        "image":"https://images.pexels.com/photos/4331489/pexels-photo-4331489.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "name": "Vada",
+        "price": 40,
+        "description": "Crispy fried lentil donuts served with sambar and chutney.",
+        "ratings": 4.4,
+        "prepare":15,
+        "image":"https://as2.ftcdn.net/v2/jpg/04/93/56/75/1000_F_493567592_wijZ9m7d1RtxuyoYF7ACHMaDmUvgi4ty.jpg"
+    },
+    {
+        "name": "Pulav",
+        "price": 40,
+        "description": "Aromatic rice cooked with vegetables and spices.",
+        "ratings": 4.2,
+        "prepare":18,
+        "image":"https://images.pexels.com/photos/21517320/pexels-photo-21517320/free-photo-of-close-up-of-a-meal-at-an-asian-restaurant.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "name": "Parota",
+        "price": 40,
+        "description": "Layered flatbread made with maida, served with curry.",
+        "ratings": 4.5,
+        "prepare":25,
+        "image":"https://media.istockphoto.com/id/2153003107/photo/parotta-or-paratha-famous-and-popular-dish-of-kerala-tamilnadu-srilanka-fluffy-layered.jpg?b=1&s=612x612&w=0&k=20&c=dIZef5QeNqzcm0O-UCzOGMRK_RKTBm0Sk6xyObp44U8="
+    },
+    {
+        "name": "Chapati",
+        "price": 40,
+        "description": "Whole wheat flatbread served with curry.",
+        "ratings": 4.1,
+        "prepare":8,
+        "image":"https://media.istockphoto.com/id/2065569499/photo/paratha-sliced-served-in-dish-isolated-on-dark-background-top-view-indian-spices-bangladeshi.jpg?b=1&s=612x612&w=0&k=20&c=iL1iXJ5VtMQDsMo8q74424FQkL91zr_vRV2B7owEPh4="
+    },
+    {
+        "name": "Chicken Biryani",
+        "price": 80,
+        "description": "Spicy mixed rice dish with meat or vegetables.",
+        "ratings": 4.7,
+        "prepare":21,
+        "image":"https://images.pexels.com/photos/4224304/pexels-photo-4224304.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "name": "Special Meal",
+        "price": 60,
+        "description": "A complete meal with rice, curry, vegetables, and dessert.",
+        "ratings": 4.8,
+        "prepare":15,
+        "image":"https://media.istockphoto.com/id/481149282/photo/south-indian-food.jpg?s=612x612&w=0&k=20&c=w43naq0743XDvzCi5FW_ROvzw4_KaCkuam16sfy3hTc="
+    
+    },
+    {
+        "name": "Gobi Manchuri",
+        "price": 50,
+        "description": "Fried cauliflower florets tossed in a spicy sauce.",
+        "ratings": 4.3,
+        "prepare":20,
+        "image":"https://media.istockphoto.com/id/1957892968/photo/gobi-manchurian-served-in-dish-isolated-on-wooden-table-top-view-of-indian-spicy-food.jpg?b=1&s=612x612&w=0&k=20&c=rAueG8pc2AAkL8G_b4SQ1wD-Qj7YwDoNF6_DGPWXa2Y="
+
+    },
+    {
+        "name": "Fried Rice",
+        "price": 80,
+        "description": "Stir-fried rice with vegetables and soy sauce.",
+        "ratings": 4.2,
+        "prepare":20,
+        "image":"https://images.pexels.com/photos/3926133/pexels-photo-3926133.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "name": "Veg Biryani",
+        "price": 60,
+        "description": "Aromatic rice cooked with vegetables and spices.",
+        "ratings": 4.6,
+        "prepare":15,
+        "image":"https://images.pexels.com/photos/3926124/pexels-photo-3926124.jpeg?auto=compress&cs=tinysrgb&w=600"
+    },
+    {
+        "name": "veg burger",
+        "price": 60,
+        "description": "Aromatic rice cooked with vegetables and spices.",
+        "ratings": 4.6,
+        "prepare":15,
+        "image":"https://images.pexels.com/photos/3926124/pexels-photo-3926124.jpeg?auto=compress&cs=tinysrgb&w=600"
+    }
+]

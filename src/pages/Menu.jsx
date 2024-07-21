@@ -2,6 +2,7 @@ import React from 'react'
 import Searchbar from '../components/Searchbar'
 import { NavLink } from 'react-router-dom'
 import Dish from '../components/Dish'
+import DishData from '../data/dishes.json'
 
 const List = ({ label,children }) => {
   return( <li className='flex items-center gap-2 py-2 px-3 rounded-md hover:bg-green-50 hover:text-green-500'>
@@ -22,7 +23,7 @@ const Menu = () => {
         <Searchbar />
       </div>
       <div className='flex'>
-      <div className='w-1/4 sm:border p-2'>
+      <div className='w-1/4 sm:border p-2 hidden md:block'>
       <p className='text-center text-lg text-orange-500 font-semibold capitalize'>Filters</p>
             <ul className='bg-white flex flex-col gap-1 p-3 font-semibold text-sm text-slate-900'>
             <List label={'lunch'} />
@@ -50,7 +51,7 @@ const Menu = () => {
             </div>
       <div className='flex-1 border p-2 flex flex-col gap-2 max-h-screen overflow-y-scroll overflow-x-hidden'> 
         {
-          Array(5).fill(0).map((val,ind) => <Dish key={ind} />)
+          DishData.map((dish,ind) => <Dish key={ind} dish={dish} />)
         }
       </div>
       </div>
