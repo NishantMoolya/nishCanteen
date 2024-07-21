@@ -17,9 +17,11 @@ const App = () => {
     <div>
       <CenteredNavbar />
       {/* <div className='mt-12'> */}
-      <div className=''>
       <Routes>
         <Route path='/' element={<Home />} />
+      </Routes> 
+      <div className='mt-20'>
+      <Routes>
         <Route path='/menu' element={<Menu />} />
         <Route path='/checkout' element={<Checkout />} />
         <Route path='/pay' element={<Checkout />} />

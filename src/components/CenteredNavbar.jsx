@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import OutlineButton from './ui/OutlineButton'
 import Checkout from '../pages/Checkout'
@@ -15,6 +15,9 @@ const CenteredNavbar = ({ dark = false }) => {
   const handleLink = (index) => {
     setActiveLink(index);
   };
+  const closeCart = (e) => {
+    setViewOrder(false);
+  }
 
   const links = [{label:"home",route:'/'},{label:"menu",route:'/menu'},{label:"dashboard",route:'/dashboard'},{label:"about",route:'/'}];
   return (
@@ -27,15 +30,13 @@ const CenteredNavbar = ({ dark = false }) => {
        }
       </ul>
       <div className='flex gap-8 items-center'>
-        {/* <NavLink to={'/checkout'}>
-        </NavLink> */}
         <span onClick={() => setViewOrder(prev => !prev)}>
         <p className='text-xl relative'>
         <i class="fa-solid fa-utensils"></i>
         <span className='absolute bg-green-500 text-white rounded-full text-sm left-3 bottom-4 h-5 w-5 text-center font-semibold'>2</span>
         </p>
         </span>
-        <NavLink to={'/login'}><OutlineButton text={'login'} ><i className="fa-solid fa-right-to-bracket"></i></OutlineButton></NavLink>
+        <span className='sm:inline hidden'><NavLink to={'/login'}><OutlineButton text={'login'} ><i className="fa-solid fa-right-to-bracket"></i></OutlineButton></NavLink></span>
       </div>
         {!open?<li className='sm:hidden flex mr-3' onClick={() => setOpen(prev => !prev)}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-7 h-7">
@@ -62,8 +63,8 @@ const CenteredNavbar = ({ dark = false }) => {
         </span>
       </ul>
     {viewOrder && 
-    <div className='absolute top-16 left-0 right-0 mt-1'>
-    <Checkout />
+    <div className='absolute top-16 left-0 right-0 mt-1 z-10'>
+    <Checkout closeCart={closeCart} />
     </div>}
     </nav>
          </>
