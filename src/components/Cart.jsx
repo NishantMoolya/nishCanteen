@@ -18,9 +18,9 @@ const Cart = ({ dark=false,dish }) => {
               <div className='flex justify-between'>
                 <p>1 x {count} = <span className='font-semibold'>Rs{50*count}</span></p>
                 <div className='flex items-center gap-2 self-end'>
-                    <button className='px-1 py-[2px] border border-orange-500 rounded shadow-sm text-sm text-orange-500' onClick={() => handleCounter(1)}><i className="fa-solid fa-plus"></i></button>
-                    <p className='text-lg text-orange-500 font-semibold'>{count}</p>
                     <button className='px-1 py-[2px] border border-orange-500 rounded shadow-sm text-sm text-orange-500' onClick={() => handleCounter(-1)}><i className="fa-solid fa-minus"></i></button>
+                    <p className='text-lg text-orange-500 font-semibold'>{count}</p>
+                    <button className='px-1 py-[2px] border border-orange-500 rounded shadow-sm text-sm text-orange-500' onClick={() => handleCounter(1)}><i className="fa-solid fa-plus"></i></button>
                 </div>
               </div>
             </section>
