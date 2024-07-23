@@ -20,8 +20,14 @@ body::-webkit-scrollbar{
   display: none;
 }
 
-.active{
+.navbar.active{
   color: #22c55e;
+}
+
+.dashboard.active{
+  color: #22c55e;
+  background-color: #f0fdf4;
+  border-radius: 0.375rem;
 }
 
 .back_img{

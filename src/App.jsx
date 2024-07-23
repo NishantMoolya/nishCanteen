@@ -11,6 +11,7 @@ import Home from './pages/Home'
 import Checkout from './pages/Checkout'
 import Performance from './pages/dashboard/Performance'
 import Footer from './components/Footer'
+import Products from './pages/dashboard/Products'
 
 const App = () => {
   return (
@@ -27,8 +28,9 @@ const App = () => {
         <Route path='/pay' element={<Checkout />} />
         <Route path='/login' element={<Login />} />
         <Route path='/dashboard' element={<Dashboard />} >
-        <Route element={<Overview />} index />
+        <Route path='overview' element={<Overview />} />
         <Route path='staff' element={<Staff />} />
+        <Route path='products' element={<Products />} />
         <Route path='menu' element={<MenuDisplay />} />
         <Route path='performance' element={<Performance />} />
         </Route>

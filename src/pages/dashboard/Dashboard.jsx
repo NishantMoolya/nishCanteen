@@ -3,7 +3,7 @@ import avatar from '../../assets/person1.jpg'
 import { NavLink, Outlet } from 'react-router-dom'
 
 const List = ({ label,children,route }) => {
-    return( <NavLink to={route}>
+    return( <NavLink to={route} className={'dashboard'}>
     <li className='flex items-center gap-2 py-2 px-3 rounded-md hover:bg-green-50 hover:text-green-500'>
       {children}
       <p className='capitalize'>{label}</p>
@@ -20,9 +20,11 @@ const Dashboard = () => {
               <img src={avatar} alt="user" className='w-16 h-16' />
               <p className='font-semibold'>Nishant Moolya</p>
             </div>
-            {/* <List label={'overview'} route={'/dashboard'} />
-            <hr /> */}
+            <List label={'overview'} route={'/dashboard/overview'} />
+            <hr />
             <List label={'performance'} route={'/dashboard/performance'} ><i class="fa-solid fa-chart-simple"></i></List>
+            <hr />
+            <List label={'products'} route={'/dashboard/products'} />
             <hr />
             <List label={'menu card'} route={'/dashboard/menu'} ><i class="fa-solid fa-book"></i></List>
             <hr />

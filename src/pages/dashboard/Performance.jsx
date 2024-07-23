@@ -1,6 +1,7 @@
 import React from 'react'
 import CustomerPieChart from '../../components/CustomerPieChart';
 import TopSellingChart from '../../components/TopSellingChart';
+import PieChart from '../../components/charts/PieChart';
 
 const Performance = () => {
     const pieData = {
@@ -42,9 +43,10 @@ const Performance = () => {
         <p className='text-2xl font-semibold mb-4 text-orange-500'>Top sold dishes</p>
             <TopSellingChart data={horBarData} />
         </div>
-        <div className='h-[70vh] w-full'>
+        <div className='h-[600px] w-[600px]'>
             <p className='text-2xl font-semibold mb-4 text-orange-500'>Piechart showing the distribution of type of customers</p>
-        <CustomerPieChart data={pieData} />
+        {/* <CustomerPieChart data={pieData} /> */}
+        
         </div>
     </div>
   )

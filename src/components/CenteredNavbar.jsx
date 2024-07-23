@@ -4,7 +4,7 @@ import OutlineButton from './ui/OutlineButton'
 import Checkout from '../pages/Checkout'
 
 const Link = ({ label, route,indicate,handleOnclick }) => {
-  return(<li className='hover:text-slate-500 relative capitalize text-sm text-center font-semibold ' onClick={handleOnclick}><NavLink to={route}>{label}</NavLink>
+  return(<li className='hover:text-slate-500 relative capitalize text-sm text-center font-semibold' onClick={handleOnclick}><NavLink to={route} className={'navbar'}>{label}</NavLink>
   {indicate && <span className="block w-full h-[2px] absolute bg-green-500 mt-[2px] rounded-full animate-slide-in"></span>}</li>)
 }
 const CenteredNavbar = ({ dark = false }) => {
@@ -19,7 +19,7 @@ const CenteredNavbar = ({ dark = false }) => {
     setViewOrder(false);
   }
 
-  const links = [{label:"home",route:'/'},{label:"menu",route:'/menu'},{label:"dashboard",route:'/dashboard'},{label:"about",route:'/'}];
+  const links = [{label:"home",route:'/'},{label:"menu",route:'/menu'},{label:"dashboard",route:'/dashboard/overview'},{label:"about",route:'/'}];
   return (
     <>
     <nav className={`flex items-center justify-between px-6 ${dark ? 'bg-black' : 'bg-white'} py-3 shadow fixed z-30 top-2 right-2 left-2 rounded-2xl`}>
