@@ -32,7 +32,7 @@ const CenteredNavbar = ({ dark = false }) => {
       <div className='flex gap-8 items-center'>
         <span onClick={() => setViewOrder(prev => !prev)}>
         <p className={`text-xl relative ${viewOrder?'text-green-500':''}`}>
-        <i class="fa-solid fa-utensils"></i>
+        <i className="fa-solid fa-utensils"></i>
         <span className='absolute bg-green-500 text-white rounded-full text-sm left-3 bottom-4 h-5 w-5 text-center font-semibold'>2</span>
         </p>
         </span>
@@ -57,7 +57,7 @@ const CenteredNavbar = ({ dark = false }) => {
         <span onClick={() => setOpen(false)}>
         <NavLink to={'/checkout'}>
         <p className='text-xl capitalize text-center font-semibold '>
-        <i class="fa-solid fa-utensils"></i>
+        <i className="fa-solid fa-utensils"></i>
         </p>
         </NavLink>
         </span>

@@ -1,134 +1,104 @@
-// src/SlidingAddProductForm.js
-
 import React, { useState } from 'react';
+import Chip from './ui/Chip';
+import TagChip from './ui/TagChip';
+import Button from './ui/Button';
+import usePost from '../hooks/usePost';
+import OutlineButton from './ui/OutlineButton';
 
-const SlidingAddProductForm = ({ onClose }) => {
-  const [product, setProduct] = useState({
-    name: '',
-    description: '',
-    price: '',
-    image: null,
-  });
+const Input = ({ name,type="text",label,textarea=false,accept="",handleChange,value }) => {
+  return(
+    <div className='flex flex-col gap-1'>
+        <label htmlFor={name} className='text-slate-900 font-semibold capitalize'>{label}</label>
+        {textarea?<textarea name={name} onChange={handleChange} value={value} className='border py-1 px-3 rounded outline-none text-slate-900 font-semibold focus:border-slate-500' autoComplete='off' required />
+        :<input type={type} name={name} onChange={handleChange} value={value} className='border py-1 px-3 rounded outline-none text-slate-900 font-semibold focus:border-slate-500' accept={accept} autoComplete='off' required />}
+    </div>
+  )
+}
+
+const Checkbox = ({ label,name,handleChange }) => {
+  return(<span className='flex items-center gap-4'>
+    <label htmlFor={name} className='flex-1 text-left text-slate-900 capitalize font-semibold hover:text-green-500'>{label}</label><input type="checkbox" name={name} id={name} onChange={handleChange} />
+    </span>)
+}
+
+const ProductForm = ({ initialProduct,onClose }) => {
+  const [product, setProduct] = useState(initialProduct);
+
+  const initialTags = ["spicy","tangy",'sweet','hot','cool','sour','coldrink'];
+  const [tags, setTags] = useState(initialProduct.tags);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const postData = usePost('/products');
+
+  const handleTagSelect = (tag,selected) => {
+    if (selected) {
+      const copy = tags.filter(val => val !== tag);
+      setTags(copy);
+    }else{
+      setTags(prev => [...prev,tag]);
+    }
+  }
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
+    //console.log(name,value,files);
     setProduct((prevProduct) => ({
       ...prevProduct,
       [name]: files ? files[0] : value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
+    try {
     e.preventDefault();
-    console.log(product);
-    // Simulate submission and close the form
-    setTimeout(onClose, 300); // Adjust timeout to match the slide-out duration
+    setIsLoading(true);
+    console.log({...product,tags:tags});
+    const data = await postData({...product,tags:tags});
+    if(data != null){
+      setProduct(initialProduct);
+      onClose();
+    }else{
+      alert('cannot post data');
+    }
+  } catch (err) {
+      console.log(`an error in submitting form:${err}`);
+  }finally{
+    setIsLoading(false);
+  }
   };
 
   return (
-    <div className="absolute top-0 right-0 h-full w-96 bg-white shadow-lg p-8 transition-transform transform translate-x-0 z-50">
-      <h2 className="text-2xl font-bold mb-4">Add New Product</h2>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="name" className="block font-medium mb-2">
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            value={product.name}
-            onChange={handleInputChange}
-            className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-500"
-            required
-          />
+    <div className='shadow rounded p-4 w-[400px] bg-white ml-auto animate-slide-in'>
+      <span className='flex items-center justify-between'>
+        <p className='text-slate-500 font-semibold text-sm'>Categories</p>
+        <p className='text-xl text-red-500' onClick={onClose}><i className="fa-regular fa-circle-xmark"></i></p>
+        </span>
+      <form className='flex flex-col gap-2' onSubmit={handleSubmit}>
+        <Input name={'name'} label={'name'} handleChange={handleInputChange} value={product.name} />
+        <Input name={'description'} label={'description'} textarea={true} value={product.description} handleChange={handleInputChange} />
+        <Input name={'price'} label={'price(Rs)'} type={'number'} handleChange={handleInputChange} value={product.price} />
+        <Input name={'category'} label={'category'} handleChange={handleInputChange} value={product.category} />
+        <div className='flex flex-col gap-1'>
+        <label htmlFor={'isVeg'} className='text-slate-900 font-semibold capitalize'>is it vegetarian dish</label>
+        <label>Yes <input type={'radio'} name={'isVeg'} value={true} defaultChecked={product.isVeg} onChange={handleInputChange} className='border py-1 px-3 rounded outline-none text-slate-900 font-semibold focus:border-slate-500' autoComplete='off' required /></label>
+        <label>No <input type={'radio'} name={'isVeg'} value={false} defaultChecked={product.isVeg} onChange={handleInputChange} className='border py-1 px-3 rounded outline-none text-slate-900 font-semibold focus:border-slate-500' autoComplete='off' required /></label>
         </div>
-        <div className="mb-4">
-          <label htmlFor="description" className="block font-medium mb-2">
-            Description
-          </label>
-          <textarea
-            id="description"
-            name="description"
-            value={product.description}
-            onChange={handleInputChange}
-            className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-500"
-            rows="3"
-            required
-          ></textarea>
+        {/* <Input name={'image'} label={'image'} type={'file'} accept={'image/*'} handleChange={handleInputChange} /> */}
+        <div className='flex flex-col gap-2 py-1'>
+        <label htmlFor={'tags'} className='text-slate-900 font-semibold capitalize'>Tags</label>
+        <div className='flex flex-wrap gap-2 items-center'>
+          {
+            initialTags.map((tag,ind) => <TagChip key={ind} text={tag} selected={tags.includes(tag)} handleSelect={handleTagSelect} />)
+          }
         </div>
-        <div className="mb-4">
-          <label htmlFor="price" className="block font-medium mb-2">
-            Price
-          </label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={product.price}
-            onChange={handleInputChange}
-            className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-500"
-            min="0"
-            step="0.01"
-            required
-          />
-        </div>
-        <div className="mb-4">
-          <label htmlFor="image" className="block font-medium mb-2">
-            Image
-          </label>
-          <input
-            type="file"
-            id="image"
-            name="image"
-            onChange={handleInputChange}
-            className="border border-gray-300 rounded-md px-4 py-2 w-full focus:outline-none focus:ring focus:border-blue-500"
-            required
-          />
-        </div>
-        <button
-          type="submit"
-          className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md"
-        >
-          Add Product
-        </button>
+          </div>
+          <div className='flex items-center justify-between'>
+          <OutlineButton text={'cancel'} color={'orange'} handleClick={onClose} />
+          <Button text={'add product'} type='submit' />
+          </div>
       </form>
     </div>
   );
 };
 
-const SlidingAddProduct = () => {
-  const [isVisible, setIsVisible] = useState(false);
-
-  const toggleForm = () => {
-    setIsVisible(!isVisible);
-  };
-
-  return (
-    <div className="relative">
-      <button
-        onClick={toggleForm}
-        className="bg-green-500 text-white font-medium py-2 px-4 rounded-md"
-      >
-        {isVisible ? 'Close' : 'Add Product'}
-      </button>
-      {isVisible && (
-        <div
-          className={`fixed top-0 right-0 h-full w-full bg-black bg-opacity-50 transition-opacity duration-300 ${
-            isVisible ? 'opacity-100' : 'opacity-0'
-          } z-40`}
-          onClick={toggleForm}
-        />
-      )}
-      <div
-        className={`absolute top-0 right-0 h-full w-96 bg-white shadow-lg p-8 transition-transform transform ${
-          isVisible ? 'translate-x-0' : 'translate-x-full'
-        } z-50`}
-      >
-        <SlidingAddProductForm onClose={toggleForm} />
-      </div>
-    </div>
-  );
-};
-
-export default SlidingAddProduct;
+export default ProductForm;

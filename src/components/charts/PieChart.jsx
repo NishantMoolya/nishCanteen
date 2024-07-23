@@ -17,7 +17,7 @@ const PieChart = ({ data, legend, title }) => {
       };
   return (
     <div className="bg-white shadow rounded p-4">
-      <h2 className="text-xl font-semibold mb-4">{title}</h2>
+      <h2 className="text-xl font-semibold mb-4 text-orange-500">{title}</h2>
       <Pie data={data} options={options} />
     </div>
   );
