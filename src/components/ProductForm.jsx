@@ -21,14 +21,12 @@ const Checkbox = ({ label,name,handleChange }) => {
     </span>)
 }
 
-const ProductForm = ({ initialProduct,onClose }) => {
+const ProductForm = ({ initialProduct,onClose,edit=false,postData }) => {
   const [product, setProduct] = useState(initialProduct);
 
   const initialTags = ["spicy","tangy",'sweet','hot','cool','sour','coldrink'];
   const [tags, setTags] = useState(initialProduct.tags);
   const [isLoading, setIsLoading] = useState(false);
-
-  const postData = usePost('/products');
 
   const handleTagSelect = (tag,selected) => {
     if (selected) {
@@ -41,7 +39,6 @@ const ProductForm = ({ initialProduct,onClose }) => {
 
   const handleInputChange = (e) => {
     const { name, value, files } = e.target;
-    //console.log(name,value,files);
     setProduct((prevProduct) => ({
       ...prevProduct,
       [name]: files ? files[0] : value,
@@ -52,8 +49,8 @@ const ProductForm = ({ initialProduct,onClose }) => {
     try {
     e.preventDefault();
     setIsLoading(true);
-    console.log({...product,tags:tags});
-    const data = await postData({...product,tags:tags});
+    const { category,name,description,rating,price,image,isVeg } = product;
+    const data = await postData({category:category.trim(),name:name.trim(),description:description.trim(),rating:rating,price:price,image,isVeg,tags:tags});
     if(data != null){
       setProduct(initialProduct);
       onClose();
@@ -93,8 +90,10 @@ const ProductForm = ({ initialProduct,onClose }) => {
         </div>
           </div>
           <div className='flex items-center justify-between'>
+          {!isLoading?<>
           <OutlineButton text={'cancel'} color={'orange'} handleClick={onClose} />
-          <Button text={'add product'} type='submit' />
+          <Button text={edit?'edit product':'add product'} type='submit' />
+          </>:'loading'}
           </div>
       </form>
     </div>

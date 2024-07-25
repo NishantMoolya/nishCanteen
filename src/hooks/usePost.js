@@ -1,15 +1,16 @@
-const usePost = (url) => {
+const usePost = (url,params = '/',method) => {
     const baseUrl = process.env.REACT_APP_BASE_URL;
     const postData = async (data) => {
         try {
         let options = {
-            method:"POST",
+            method:method,
             headers:{
                 'Content-Type':'application/json'
             },
             body:JSON.stringify(data)
         };
-            const res = await fetch(baseUrl+url,options);
+        console.log(baseUrl+url+params);
+            const res = await fetch(baseUrl+url+'/'+params,options);
             const resData = await res.json();
             if (res.status === 201) {   
                 return resData;
