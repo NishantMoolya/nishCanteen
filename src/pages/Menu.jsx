@@ -7,6 +7,8 @@ import TagChip from '../components/ui/TagChip'
 import FilterBox from '../components/FilterBox'
 import useMenu from '../hooks/useMenu'
 import Button from '../components/ui/Button'
+import { useDispatch } from 'react-redux'
+import { addProductToCart } from '../redux/reducers/dishReducer'
 
 const List = ({ label,children }) => {
   return( <li className='flex items-center gap-2 py-2 px-3 rounded-md hover:bg-green-50 hover:text-green-500'>
@@ -28,7 +30,7 @@ const Menu = () => {
   const [isLoading,setIsLoading] = useState(true);
   const [pageEnd,setPageEnd] = useState(false);
 
-  const getData = useMenu('/menu');
+  const getData = useMenu('/menu/products');
 
   useEffect(() => {
     getData(page,filter).then(res => {
@@ -97,6 +99,8 @@ const Menu = () => {
     }
     }
 
+    const dispatch = useDispatch();
+
   return (
     <div className='flex flex-col'>
       <div className='flex items-center justify-center w-full px-2 py-2'>
@@ -113,7 +117,7 @@ const Menu = () => {
         </div>
       <div className='p-2 flex justify-evenly gap-4 max-h-screen w-full overflow-y-scroll flex-wrap'> 
         {
-          dishData.map((dish,ind) => <Dish key={ind} dish={dish} />)
+          dishData.map((dish,ind) => <Dish key={ind} dish={dish} addToCart={() => dispatch(addProductToCart({productId:dish._id,name:dish.name,image:dish.image,price:dish.price}))} />)
         }
       </div>
       {!isLoading?!pageEnd?<span className='w-full flex items-center justify-center'><Button text={'view more'} handleClick={handleViewMore} /></span>:'no more products':'Loading'}

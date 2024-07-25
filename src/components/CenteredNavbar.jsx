@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import OutlineButton from './ui/OutlineButton'
 import Checkout from '../pages/Checkout'
+import { useDispatch, useSelector } from 'react-redux'
+import Button from './ui/Button'
+import { userLogout } from '../redux/api/userApi'
 
 const Link = ({ label, route,indicate,handleOnclick }) => {
   return(<li className='hover:text-slate-500 relative capitalize text-sm text-center font-semibold' onClick={handleOnclick}><NavLink to={route} className={'navbar'}>{label}</NavLink>
@@ -11,6 +14,8 @@ const CenteredNavbar = ({ dark = false }) => {
   const [open, setOpen] = useState(false);
   const [activeLink, setActiveLink] = useState(0);
   const [viewOrder, setViewOrder] = useState(false);
+  const auth = useSelector(state => state.user.auth);
+  const dispatch = useDispatch();
 
   const handleLink = (index) => {
     setActiveLink(index);
@@ -19,7 +24,9 @@ const CenteredNavbar = ({ dark = false }) => {
     setViewOrder(false);
   }
 
-  const links = [{label:"home",route:'/'},{label:"menu",route:'/menu'},{label:"dashboard",route:'/dashboard/overview'},{label:"about",route:'/'}];
+  const dish = useSelector(state => state.dish);
+
+  const links = [{label:"home",route:'/'},{label:"menu",route:'/menu'},{label:"dashboard",route:'/dashboard/overview'},{label:"about",route:'/'},{label:"profile",route:'/profile'}];
   return (
     <>
     <nav className={`flex items-center justify-between px-6 ${dark ? 'bg-black' : 'bg-white'} py-3 shadow fixed z-30 top-2 right-2 left-2 rounded-2xl`}>
@@ -33,10 +40,10 @@ const CenteredNavbar = ({ dark = false }) => {
         <span onClick={() => setViewOrder(prev => !prev)}>
         <p className={`text-xl relative ${viewOrder?'text-green-500':''}`}>
         <i className="fa-solid fa-utensils"></i>
-        <span className='absolute bg-green-500 text-white rounded-full text-sm left-3 bottom-4 h-5 w-5 text-center font-semibold'>2</span>
+        {(dish.length !== 0) && <span className='absolute bg-green-500 text-white rounded-full text-sm left-3 bottom-4 h-5 w-5 text-center font-semibold'>{dish.length}</span>}
         </p>
         </span>
-        <span className='sm:inline hidden'><NavLink to={'/login'}><OutlineButton text={'login'} ><i className="fa-solid fa-right-to-bracket"></i></OutlineButton></NavLink></span>
+        <span className='sm:inline hidden'>{!auth?<NavLink to={'/login'}><OutlineButton text={'login'} ><i className="fa-solid fa-right-to-bracket"></i></OutlineButton></NavLink>:<OutlineButton text={'logout'} handleClick={() => dispatch(userLogout())} color={true}><i className="fa-solid fa-right-to-bracket"></i></OutlineButton>}</span>
       </div>
         {!open?<li className='sm:hidden flex mr-3' onClick={() => setOpen(prev => !prev)}>
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-7 h-7">

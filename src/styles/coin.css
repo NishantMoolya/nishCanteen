@@ -1,0 +1,15 @@
+.octagon {
+    width: 20px; 
+    height: 20px; 
+    position: relative;
+    clip-path: polygon(
+      30% 0%, 70% 0%,
+      100% 30%, 100% 70%,
+      70% 100%, 30% 100%,
+      0% 70%, 0% 30%
+    );
+    box-shadow: 0 0 0 10px #d97706; 
+    border: 10px solid #d97706; 
+    box-sizing: border-box; 
+  
+  }

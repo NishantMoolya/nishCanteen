@@ -12,6 +12,8 @@ import Checkout from './pages/Checkout'
 import Performance from './pages/dashboard/Performance'
 import Footer from './components/Footer'
 import Products from './pages/dashboard/Products'
+import Token from './components/ui/Token'
+import StaffOrder from './components/StaffOrder'
 
 const App = () => {
   return (
@@ -27,6 +29,8 @@ const App = () => {
         <Route path='/checkout' element={<Checkout />} />
         <Route path='/pay' element={<Checkout />} />
         <Route path='/login' element={<Login />} />
+        <Route path='/profile' element={<Token />} />
+        <Route path='/orders' element={<StaffOrder />} />
         <Route path='/dashboard' element={<Dashboard />} >
         <Route path='overview' element={<Overview />} />
         <Route path='staff' element={<Staff />} />

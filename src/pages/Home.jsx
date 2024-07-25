@@ -14,7 +14,9 @@ const Home = () => {
       <p className='text-2xl font-semibold capitalize break-words text-center'>Taste the best</p>
       <div className='flex items-center gap-4 flex-wrap'>
       <Button text={'explore menu'} end={false} />
+      {/* <NavLink to={'/login'}>
       <OutlineButton text={'signup'} end={false} />
+      </NavLink> */}
       </div>
     </div>
     <div className='flex sm:flex-row flex-col justify-evenly py-4 px-6 items-center'>
