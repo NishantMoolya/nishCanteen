@@ -26,7 +26,7 @@ const CenteredNavbar = ({ dark = false }) => {
 
   const dish = useSelector(state => state.dish);
 
-  const links = [{label:"home",route:'/'},{label:"menu",route:'/menu'},{label:"dashboard",route:'/dashboard/overview'},{label:"about",route:'/'},{label:"profile",route:'/profile'}];
+  const links = [{label:"home",route:'/'},{label:"menu",route:'/menu'},{label:"dashboard",route:'/dashboard/overview'},{label:"profile",route:'/profile'},{label:"orders",route:'/orders'}];
   return (
     <>
     <nav className={`flex items-center justify-between px-6 ${dark ? 'bg-black' : 'bg-white'} py-3 shadow fixed z-30 top-2 right-2 left-2 rounded-2xl`}>
@@ -40,7 +40,7 @@ const CenteredNavbar = ({ dark = false }) => {
         <span onClick={() => setViewOrder(prev => !prev)}>
         <p className={`text-xl relative ${viewOrder?'text-green-500':''}`}>
         <i className="fa-solid fa-utensils"></i>
-        {(dish.length !== 0) && <span className='absolute bg-green-500 text-white rounded-full text-sm left-3 bottom-4 h-5 w-5 text-center font-semibold'>{dish.length}</span>}
+        {(dish.length !== 0) && <span className='absolute bg-green-500 text-white rounded-full text-sm left-3 bottom-4 h-5 w-5 text-center font-semibold'>{dish.reduce((total, item) => total + item.quantity, 0)}</span>}
         </p>
         </span>
         <span className='sm:inline hidden'>{!auth?<NavLink to={'/login'}><OutlineButton text={'login'} ><i className="fa-solid fa-right-to-bracket"></i></OutlineButton></NavLink>:<OutlineButton text={'logout'} handleClick={() => dispatch(userLogout())} color={true}><i className="fa-solid fa-right-to-bracket"></i></OutlineButton>}</span>

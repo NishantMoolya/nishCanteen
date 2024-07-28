@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import avatar from '../assets/person1.jpg'
 
 const initialUsersData = [
@@ -24,6 +24,34 @@ const initialUsersData = [
 
 function StaffOrder() {
   const [users, setUsers] = useState(initialUsersData);
+
+  const [pendingDishes, setPendingDishes] = useState([]);
+  const [readyDishes, setReadyDishes] = useState([]);
+
+  const baseURL = process.env.REACT_APP_BASE_URL;
+  const placeOrder = async (status) => {
+    try {
+    const res = await fetch(`${baseURL}/orders?status=${status}`,{
+        method:"GET",
+        headers:{"Content-Type":"application/json"},
+        credentials:'include'   
+    });
+    const data = await res.json();
+    if(res.status === 200){
+     return data;
+    }else{
+      alert('cannot place order');
+      return null;
+    }
+  } catch (err) {
+      return null;
+  }
+  }
+
+  useEffect(() => {
+    placeOrder('paid').then(res => {setPendingDishes(res.orders); console.log(res);});
+    placeOrder('ready').then(res => {setReadyDishes(res.orders); console.log(res);});
+  },[]);
 
   const toggleStatus = (userId, itemId) => {
     setUsers((prevUsers) =>

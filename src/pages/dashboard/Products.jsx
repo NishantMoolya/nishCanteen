@@ -16,6 +16,8 @@ const Products = () => {
     tags:[]
   } 
   const [currentProduct, setCurrentProduct] = useState(initialProduct);
+
+
   const [addProduct, setAddProduct] = useState(false);
   const [productList,setProductList] = useState([]);
   const [isEdit,setIsEdit] = useState(false);

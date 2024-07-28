@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import CenteredNavbar from './components/CenteredNavbar'
 import { Route, Routes } from 'react-router-dom'
 import Menu from './pages/Menu'
@@ -14,8 +14,15 @@ import Footer from './components/Footer'
 import Products from './pages/dashboard/Products'
 import Token from './components/ui/Token'
 import StaffOrder from './components/StaffOrder'
+import { useDispatch } from 'react-redux'
+import { authenticate, getUserProfile } from './redux/api/userApi'
+import CanteenOrders from './components/CanteenOrders'
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // dispatch(getUserProfile());
+  },[]);
   return (
     <div>
       <CenteredNavbar />
@@ -30,7 +37,7 @@ const App = () => {
         <Route path='/pay' element={<Checkout />} />
         <Route path='/login' element={<Login />} />
         <Route path='/profile' element={<Token />} />
-        <Route path='/orders' element={<StaffOrder />} />
+        <Route path='/orders' element={<CanteenOrders />} />
         <Route path='/dashboard' element={<Dashboard />} >
         <Route path='overview' element={<Overview />} />
         <Route path='staff' element={<Staff />} />

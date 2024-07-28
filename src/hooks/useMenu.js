@@ -9,7 +9,7 @@ const useMenu = (url) => {
                 },
                 body:JSON.stringify(filter)
             };
-                const res = await fetch(baseUrl+url+`?page=${page}`,options);
+                const res = await fetch(baseUrl+'/menu/products'+`?page=${page}`,options);
                 const resData = await res.json();
                 if (res.status === 200) {   
                     return resData;

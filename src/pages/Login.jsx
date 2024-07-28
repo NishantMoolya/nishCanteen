@@ -49,7 +49,7 @@ const Login = () => {
         return alert("invalid credentials");
       }else if(data.status === 401){
         alert("Not a registered user");
-        return navigate('/signup');
+        return setIsLogin(false);
       }else{
         throw new Error("Server error");
       }
@@ -73,10 +73,10 @@ const Login = () => {
       //console.log(response);
       if(data.status === 200){
         alert("User already registered");
-        return navigate('/login');
+        return setIsLogin(true);
       }else if(data.status === 201){
         alert("User account created");
-        return navigate('/login');
+        return setIsLogin(true);
       }else{
         throw new Error("Server error");
       }

@@ -6,7 +6,8 @@ const useFetch = (url) => {
                 method:"GET",
                 headers:{
                     'Content-Type':'application/json'
-                }
+                },
+                crendentials:'include'
             };
                 const res = await fetch(baseUrl+url,options);
                 const resData = await res.json();

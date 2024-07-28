@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import Coin from './Coin'
+import QRCode from '../QRCode'
 
 const SingleToken = ({ token }) => {
     return(
@@ -11,9 +12,14 @@ const Token = () => {
     const tokens = useSelector(state => state.user.token);
   return (
     <div className='flex items-center gap-4 justify-center'>{
-        tokens.map((token,ind) => <SingleToken token={token} />)
+        // tokens.map((token,ind) => <SingleToken token={token} />)
     }
     <Coin />
+    <div>
+      {
+        tokens.map(token => <QRCode token={token} />)
+      }
+    </div>
     </div>
   )
 }

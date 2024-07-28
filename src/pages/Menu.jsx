@@ -5,10 +5,12 @@ import Dish from '../components/Dish'
 //import DishData from '../data/dishes.json'
 import TagChip from '../components/ui/TagChip'
 import FilterBox from '../components/FilterBox'
-import useMenu from '../hooks/useMenu'
-import Button from '../components/ui/Button'
+//import useMenu from '../hooks/useMenu'
+//import Button from '../components/ui/Button'
 import { useDispatch } from 'react-redux'
 import { addProductToCart } from '../redux/reducers/dishReducer'
+import useLazyScroll from '../hooks/useLazyScroll'
+//import { isArraysEqual, isDeepEqual } from '../helpers/menuHelpers'
 
 const List = ({ label,children }) => {
   return( <li className='flex items-center gap-2 py-2 px-3 rounded-md hover:bg-green-50 hover:text-green-500'>
@@ -19,51 +21,69 @@ const List = ({ label,children }) => {
 
 const Menu = () => {
   const initialTags = ["spicy","tangy",'sweet','hot','cool','sour','coldrink'];
-  const initialFilter = { category:[],tags:[],isVeg:undefined,startPrice:'',endPrice:'' };
-
+  const initialFilter = { category:[],tags:[],isVeg:"",startPrice:10,endPrice:100 };
+  const baseUrl = process.env.REACT_APP_BASE_URL;
+  
+  const [dishData, setDishData] = useState([]);
+  
+  const [filter, setFilter] = useState(initialFilter);
   const [tags, setTags] = useState([]);
   const [viewFilter, setViewFilter] = useState(false);
-  const [dishData, setDishData] = useState([]);
-  const [filter, setFilter] = useState(initialFilter);
+  
+  
+  const dispatch = useDispatch();
 
-  const [page,setPage] = useState(1);
-  const [isLoading,setIsLoading] = useState(true);
-  const [pageEnd,setPageEnd] = useState(false);
-
-  const getData = useMenu('/menu/products');
+  const { frameRef,handleScroll,scrollData,lazyLoadData,resetPage } = useLazyScroll();
 
   useEffect(() => {
-    getData(page,filter).then(res => {
-      if (res) {
-        if (res.menu.length !== 0) {
-          console.log(res.menu);
-          setDishData(prev => [...prev,...res.menu]);
-          setPageEnd(false);
-        }else{
-          setPageEnd(true);
+      lazyLoadData(`${baseUrl}/menu/products?page=${scrollData.page}`,'POST',filter).then(res => {
+        //console.log(res);
+        if(res) {
+          scrollData.page === 1?setDishData(prev => [...res.data]):setDishData(prev => [...prev,...res.data])
         }
-      }
-    }).finally(() => setIsLoading(false));
-  },[page,filter]);
+      });
+  },[scrollData.page]);
 
-  const handleViewMore = () => {
-    setIsLoading(true);
-    setPage(prev => prev+1);
+  const fetchData = (data) => {
+    resetPage();
+    lazyLoadData(`${baseUrl}/menu/products?page=${1}`,'POST',{...filter,...data}).then(res => {
+      //console.log(res);
+          if(res) {
+            setDishData(prev => [...res.data]);
+          }
+        });
   }
 
   const handleTagSelect = (tag,selected) => {
     if (selected) {
       const copy = tags.filter(val => val !== tag);
       setTags(copy);
+      fetchData({...filter,tags:[...copy]});
     }else{
       setTags(prev => [...prev,tag]);
+      fetchData({...filter,tags:[...tags,tag]});
     }
+    setFilter(prev => ({...prev,tags:[...tags]}));
   }
+
   const closeFilter = () => {
     setViewFilter(false);
   }
 
-  const baseUrl = process.env.REACT_APP_BASE_URL;
+  const handleFilter = (data) => {
+    fetchData({...filter,...data});
+    setFilter(prev => ({...data}));
+  }
+
+  const handleClear = () => {
+    setFilter(prev => ({...initialFilter}));
+    fetchData({...initialFilter});
+    closeFilter();
+  }
+
+
+
+  
     const searchData = async (url) => {
         try {
         let options = {
@@ -84,22 +104,19 @@ const Menu = () => {
         }
     }
 
-    const handleSearch = async (id) => {
+    const handleSearch = async (id,selected) => {
       try {
-      const data = await searchData(`/menu/${id}`);
+      if(!selected){const data = await searchData(`/products/${id}`);
       if(data){
-        console.log('got');
-        console.log(data);
-        setDishData(prev => [data.data]);
+        setDishData(prev => [...data.data]);
       }else{
         alert('failed');
-      }
+      }}else fetchData({...filter});
     } catch (err) {
         
     }
     }
 
-    const dispatch = useDispatch();
 
   return (
     <div className='flex flex-col'>
@@ -113,14 +130,16 @@ const Menu = () => {
         }
       </div>
       <div className='absolute top-44 left-2 z-10'>
-            {viewFilter && <FilterBox closeFilter={closeFilter} />}
+            {viewFilter && <FilterBox filter={filter} closeFilter={closeFilter} handleFilter={handleFilter} handleClear={handleClear} />}
         </div>
-      <div className='p-2 flex justify-evenly gap-4 max-h-screen w-full overflow-y-scroll flex-wrap'> 
+      <div className='p-2 flex justify-evenly gap-4 h-screen w-full overflow-y-scroll flex-wrap' ref={frameRef} onScroll={handleScroll}> 
         {
           dishData.map((dish,ind) => <Dish key={ind} dish={dish} addToCart={() => dispatch(addProductToCart({productId:dish._id,name:dish.name,image:dish.image,price:dish.price}))} />)
         }
       </div>
-      {!isLoading?!pageEnd?<span className='w-full flex items-center justify-center'><Button text={'view more'} handleClick={handleViewMore} /></span>:'no more products':'Loading'}
+      {/* {!scrollData.isLoading?scrollData.canScroll?<span className='w-full flex items-center justify-center'><Button text={'view more'} handleClick={handleViewMore} /></span>:'no more products':'Loading'} */}
+      {scrollData.isLoading?'Loading...':null}
+      {!scrollData.canScroll?'No more products':null}
     </div>
   )
 }
