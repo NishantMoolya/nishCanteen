@@ -5,7 +5,8 @@ const initialUser = {
     name:"",
     email:"",
     avatar:"",
-    token:[],
+    tokens:[],
+    coinBalance:0,
     auth:false
 }
 
@@ -19,7 +20,7 @@ const userSlice = createSlice({
         },
         addToken:(state,action) => {
           const token = action.payload;
-          state.token.push(token);
+          state.tokens.push(token);
       }
     },
     extraReducers:(builder) => {
@@ -38,8 +39,8 @@ const userSlice = createSlice({
           });
 
           builder.addCase(getUserProfile.fulfilled, (state,action) => {
-            const { profile,authenticate } = action.payload;
-            return {...state,...profile,auth:authenticate}
+            const { data,authenticate } = action.payload;
+            return {...state,...data,auth:authenticate}
           });
 
           builder.addCase(changeAvatar.fulfilled, (state,action) => {

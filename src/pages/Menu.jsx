@@ -10,6 +10,7 @@ import FilterBox from '../components/FilterBox'
 import { useDispatch } from 'react-redux'
 import { addProductToCart } from '../redux/reducers/dishReducer'
 import useLazyScroll from '../hooks/useLazyScroll'
+import useFetch from '../hooks/useFetch'
 //import { isArraysEqual, isDeepEqual } from '../helpers/menuHelpers'
 
 const List = ({ label,children }) => {
@@ -29,12 +30,12 @@ const Menu = () => {
   const [filter, setFilter] = useState(initialFilter);
   const [tags, setTags] = useState([]);
   const [viewFilter, setViewFilter] = useState(false);
-  
-  
-  const dispatch = useDispatch();
 
   const { frameRef,handleScroll,scrollData,lazyLoadData,resetPage } = useLazyScroll();
+  const getData = useFetch();
 
+  const dispatch = useDispatch();
+  
   useEffect(() => {
       lazyLoadData(`${baseUrl}/menu/products?page=${scrollData.page}`,'POST',filter).then(res => {
         //console.log(res);
@@ -80,41 +81,14 @@ const Menu = () => {
     fetchData({...initialFilter});
     closeFilter();
   }
-
-
-
-  
-    const searchData = async (url) => {
-        try {
-        let options = {
-            method:"GET",
-            headers:{
-                'Content-Type':'application/json'
-            }
-        };
-        console.log(baseUrl+url);
-            const res = await fetch(baseUrl+url,options);
-            const resData = await res.json();
-            if (res.status === 200) {   
-                return resData;
-            }else throw new Error(`${resData?.message}`);
-        } catch (err) {
-            console.log(`hook:an error occurred cannot post data:${err}`);
-            return null;
-        }
-    }
-
+    
     const handleSearch = async (id,selected) => {
-      try {
-      if(!selected){const data = await searchData(`/products/${id}`);
+      if(!selected){const data = await getData(baseUrl+`/products/${id}`);
       if(data){
         setDishData(prev => [...data.data]);
       }else{
         alert('failed');
       }}else fetchData({...filter});
-    } catch (err) {
-        
-    }
     }
 
 
@@ -137,7 +111,6 @@ const Menu = () => {
           dishData.map((dish,ind) => <Dish key={ind} dish={dish} addToCart={() => dispatch(addProductToCart({productId:dish._id,name:dish.name,image:dish.image,price:dish.price}))} />)
         }
       </div>
-      {/* {!scrollData.isLoading?scrollData.canScroll?<span className='w-full flex items-center justify-center'><Button text={'view more'} handleClick={handleViewMore} /></span>:'no more products':'Loading'} */}
       {scrollData.isLoading?'Loading...':null}
       {!scrollData.canScroll?'No more products':null}
     </div>

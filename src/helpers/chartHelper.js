@@ -8,4 +8,26 @@ const generateColors = (length) => {
     return colors;
   };
 
-  export { generateColors };
+const loadFromLocalStorage = (key) => {
+    try {
+        const serializedState = localStorage.getItem(key);
+        if (serializedState === null) {
+            return undefined;
+        }
+        return JSON.parse(serializedState);
+    } catch (e) {
+        console.warn('Error loading from local storage', e);
+        return undefined;
+    }
+};
+
+const saveToLocalStorage = (key, state) => {
+    try {
+        const serializedState = JSON.stringify(state);
+        localStorage.setItem(key, serializedState);
+    } catch (e) {
+        console.warn('Error saving to local storage', e);
+    }
+};
+
+  export { generateColors,loadFromLocalStorage,saveToLocalStorage };

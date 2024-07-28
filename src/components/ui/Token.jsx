@@ -9,7 +9,7 @@ const SingleToken = ({ token }) => {
     )
 }
 const Token = () => {
-    const tokens = useSelector(state => state.user.token);
+    const tokens = useSelector(state => state.user.tokens);
   return (
     <div className='flex items-center gap-4 justify-center'>{
         // tokens.map((token,ind) => <SingleToken token={token} />)

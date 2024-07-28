@@ -1,25 +1,31 @@
-const useFetch = (url) => {
-    const baseUrl = process.env.REACT_APP_BASE_URL;
-    const getData = async () => {
+const useFetch = () => {
+    return async (url,method = 'GET',postData=null,validStatus = 200) => {
         try {
             let options = {
-                method:"GET",
+                method:method,
                 headers:{
                     'Content-Type':'application/json'
                 },
-                crendentials:'include'
+                credentials:'include'
             };
-                const res = await fetch(baseUrl+url,options);
-                const resData = await res.json();
-                if (res.status === 200) {   
-                    return resData;
-                }else throw new Error(`${resData?.message}`);
-            } catch (err) {
-                console.log(`hook:an error occurred cannot get data:${err}`);
-                return null;
+            if (postData === null) {
+                postData={message:'body is empty'};
             }
+            if (method !== 'GET') {
+                options = {...options,body:JSON.stringify(postData)};                
+            }
+            const res = await fetch(url,options);
+            const data = await res.json();
+            if (res.status === validStatus) {
+                return data;
+            }else{
+                throw new Error('Invalid status code and response');
+            }
+        } catch (err) {
+            console.log(`fetch:an error occurred in getting data:${err}`);
+            return null;
+        }
     }
-    return getData;
 }
 
 export default useFetch;

@@ -2,14 +2,11 @@ import React, { useState } from 'react'
 import dish1 from '../assets/dish1.avif'
 import { NavLink } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
-import { decrementProductQuantity, incrementProductQuantity } from '../redux/reducers/dishReducer';
+import { decrementProductQuantity, incrementProductQuantity, removeProductFromCart } from '../redux/reducers/dishReducer';
 
-const Cart = ({ dark=false,dish }) => {
-    //const [count, setCount] = useState(dish.quantity);
-    // const handleCounter = (val) => {
-    //   setCount(prev => Math.min(Math.max(1,prev+val),100));
-    // }
-    const dispatch = useDispatch();
+const Cart = ({ dish }) => {
+  const dispatch = useDispatch();
+
   return (
     <div>
         <div className={`bg-white flex gap-2 text-slate-500 sm:w-full overflow-hidden`}>
@@ -17,6 +14,7 @@ const Cart = ({ dark=false,dish }) => {
             <section className={`flex flex-col justify-center flex-1 gap-1`}>
               <div className='flex items-center justify-between'>
                 <h5 className={`text-slate-900 first-letter:capitalize font-bold text-base`}>{dish.name}</h5>
+                <span className='text-red-500 mr-1 text-sm' onClick={() => {dispatch(removeProductFromCart(dish.productId))}}><i className="fa-solid fa-trash"></i></span>
               </div>
               <div className='flex justify-between'>
                 <p>Rs{dish.price} x {dish.quantity} = <span className='font-semibold'>Rs{dish.price*dish.quantity}</span></p>

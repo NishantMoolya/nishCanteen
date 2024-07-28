@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useSearch } from '../hooks/useSearch';
 
 const SuggestionList = ({ suggestion, selected, selectSuggestion, getValue }) => {
+  const handleClick = () => {
+    selectSuggestion(suggestion.name);
+    getValue();
+  }
+
   return (
     <span
-      className={`px-1 py-1 rounded hover:bg-green-50 ${selected ? 'bg-green-50' : ''}`}
-      onClick={(e) => {
-        selectSuggestion(suggestion.name);
-        getValue();
-      }}
-    >
-      <p className={`hover:text-green-500 ${selected ? 'text-green-500' : 'text-slate-700'} font-semibold text-sm capitalize`}>
+      className={`px-1 py-1 rounded hover:bg-green-50 ${selected ? 'bg-green-50' : ''} flex items-center`}
+      onClick={handleClick}>
+      <p className={`hover:text-green-500 ${selected ? 'text-green-500' : 'text-slate-700'} flex-1 font-semibold text-sm capitalize`}>
         {suggestion.name}
       </p>
     </span>
