@@ -7,6 +7,7 @@ const initialUser = {
     avatar:"",
     tokens:[],
     coinBalance:0,
+    role:'user',
     auth:false
 }
 
@@ -35,12 +36,16 @@ const userSlice = createSlice({
           });
 
           builder.addCase(userLogout.fulfilled, (state, action) => {
-            state.auth = action.payload.authenticate;
+            state = {...initialUser,auth:action.payload.authenticate};
+            return state;
           });
 
           builder.addCase(getUserProfile.fulfilled, (state,action) => {
-            const { data,authenticate } = action.payload;
-            return {...state,...data,auth:authenticate}
+            const { authenticate } = action.payload;
+            if (authenticate) {
+              const { data } = action.payload;
+              return {...state,...data,auth:authenticate}
+            }else return {...state,auth:authenticate}
           });
 
           builder.addCase(changeAvatar.fulfilled, (state,action) => {

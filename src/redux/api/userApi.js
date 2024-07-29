@@ -39,6 +39,7 @@ const getUserProfile = createAsyncThunk("userProfile", async () => {
         return await res.json();
     } catch (err) {
         console.log(`an error in authenticating user:${err}`);
+        return { data:{},authenticate:false};
     }
 });
 

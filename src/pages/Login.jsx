@@ -18,7 +18,7 @@ const Login = () => {
     name:'',
     email:"",
     password:"",
-    role:'student'
+    type:'student'
   }
 
   const [formData, setFormData] = useState(initialData);
@@ -108,8 +108,8 @@ const Login = () => {
               </div>
 
               {!isLogin && <div className='signup_input_block'>
-              <label>Role</label>
-              <select name="role" id="role" className='border border-green-500' value={formData.role}>
+              <label>Select</label>
+              <select name="type" id="type" className='border border-green-500' value={formData.type}>
                 <option value="student">Student</option>
                 <option value="staff">Staff</option>
                 <option value="outsider">Outsider</option>

@@ -9,12 +9,13 @@ import { addToken } from '../redux/reducers/userReducer'
 
 const Checkout = ({ closeCart }) => {
   const dish = useSelector(state => state.dish);
+  const username = useSelector(state => state.user.name);
 
   return (
     <div className='flex'>
       <div className='flex flex-col gap-2 ml-auto bg-white rounded-xl shadow p-2 w-full sm:w-96'>
       <div className='flex justify-between items-center'>
-      <p className='text-sm text-slate-500'>Customer: <span className='font-semibold'>Nishant</span></p>
+      <p className='text-sm text-slate-500'>Customer: <span className='font-semibold capitalize'>{username}</span></p>
       <p className='text-sm text-slate-500'>{new Date().toDateString()}</p>
       <p className='text-xl text-red-500' onClick={closeCart}><i className="fa-regular fa-circle-xmark"></i></p>
       </div>

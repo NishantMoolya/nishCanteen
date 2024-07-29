@@ -19,6 +19,9 @@ import { authenticate, getUserProfile } from './redux/api/userApi'
 import CanteenOrders from './components/CanteenOrders'
 import Payment from './pages/Payment'
 import QrCodeScanner from './components/QRCodeScanner'
+import OrderRedeem from './pages/OrderRedeem'
+import ProtectedRoute from './components/ProtectedRoute'
+import Profile from './pages/Profile'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,21 +35,18 @@ const App = () => {
   return (
     <div>
       <CenteredNavbar />
-      {/* <div className='mt-12'> */}
       <Routes>
         <Route path='/' element={<Home />} />
       </Routes> 
       <div className='mt-20'>
       <Routes>
         <Route path='/menu' element={<Menu />} />
-        <Route path='/checkout' element={<Checkout />} />
-        <Route path='/pay' element={<Checkout />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/profile' element={<Token />} />
-        <Route path='/orders' element={<CanteenOrders />} />
-        <Route path='/scan' element={<QrCodeScanner />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/orders' element={<ProtectedRoute role={['admin','staff']}><CanteenOrders /></ProtectedRoute>} />
+        <Route path='/scan' element={<ProtectedRoute role={['admin','staff']}><OrderRedeem /></ProtectedRoute>} />
         {!isCartEmpty && <Route path='/payment' element={<Payment />} />}
-        <Route path='/dashboard' element={<Dashboard />} >
+        <Route path='/dashboard' element={<ProtectedRoute role={['admin']}><Dashboard /></ProtectedRoute>} >
         <Route path='overview' element={<Overview />} />
         <Route path='staff' element={<Staff />} />
         <Route path='products' element={<Products />} />
