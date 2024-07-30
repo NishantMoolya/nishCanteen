@@ -1,17 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Searchbar from '../components/Searchbar'
-import { NavLink } from 'react-router-dom'
 import Dish from '../components/Dish'
-//import DishData from '../data/dishes.json'
 import TagChip from '../components/ui/TagChip'
 import FilterBox from '../components/FilterBox'
-//import useMenu from '../hooks/useMenu'
-//import Button from '../components/ui/Button'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { addProductToCart } from '../redux/reducers/dishReducer'
 import useLazyScroll from '../hooks/useLazyScroll'
 import useFetch from '../hooks/useFetch'
-//import { isArraysEqual, isDeepEqual } from '../helpers/menuHelpers'
+import { showToast } from '../redux/reducers/toastReducer'
 
 const List = ({ label,children }) => {
   return( <li className='flex items-center gap-2 py-2 px-3 rounded-md hover:bg-green-50 hover:text-green-500'>
@@ -35,6 +31,8 @@ const Menu = () => {
   const getData = useFetch();
 
   const dispatch = useDispatch();
+
+  const auth = useSelector(state => state.user.auth);
   
   useEffect(() => {
       lazyLoadData(`${baseUrl}/menu/products?page=${scrollData.page}`,'POST',filter).then(res => {
@@ -87,7 +85,7 @@ const Menu = () => {
       if(data){
         setDishData(prev => [...data.data]);
       }else{
-        alert('failed');
+        dispatch(showToast({ message:'Search failed',type:'error'}));
       }}else fetchData({...filter});
     }
 
@@ -108,7 +106,7 @@ const Menu = () => {
         </div>
       <div className='p-2 flex justify-evenly gap-4 h-screen w-full overflow-y-scroll flex-wrap' ref={frameRef} onScroll={handleScroll}> 
         {
-          dishData.map((dish,ind) => <Dish key={ind} dish={dish} addToCart={() => dispatch(addProductToCart({productId:dish._id,name:dish.name,image:dish.image,price:dish.price}))} />)
+          dishData.map((dish,ind) => <Dish key={ind} dish={dish} auth={auth} addToCart={() => dispatch(addProductToCart({productId:dish._id,name:dish.name,image:dish.image,price:dish.price}))} />)
         }
       </div>
       {scrollData.isLoading?'Loading...':null}

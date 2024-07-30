@@ -4,6 +4,8 @@ import TagChip from './ui/TagChip';
 import Button from './ui/Button';
 import usePost from '../hooks/usePost';
 import OutlineButton from './ui/OutlineButton';
+import { showToast } from '../redux/reducers/toastReducer';
+import { useDispatch } from 'react-redux';
 
 const Input = ({ name,type="text",label,textarea=false,accept="",handleChange,value }) => {
   return(
@@ -27,6 +29,8 @@ const ProductForm = ({ initialProduct,onClose,edit=false,postData }) => {
   const initialTags = ["spicy","tangy",'sweet','hot','cool','sour','coldrink'];
   const [tags, setTags] = useState(initialProduct.tags);
   const [isLoading, setIsLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   const handleTagSelect = (tag,selected) => {
     if (selected) {
@@ -52,13 +56,14 @@ const ProductForm = ({ initialProduct,onClose,edit=false,postData }) => {
     const { category,name,description,rating,price,image,isVeg } = product;
     const data = await postData({category:category.trim(),name:name.trim(),description:description.trim(),rating:rating,price:price,image,isVeg,tags:tags});
     if(data != null){
+      dispatch(showToast({ message:'Product added successfully',type:'success'}));
       setProduct(initialProduct);
       onClose();
     }else{
-      alert('cannot post data');
+      dispatch(showToast({ message:'Cannot add product',type:'error'}));
     }
   } catch (err) {
-      console.log(`an error in submitting form:${err}`);
+    dispatch(showToast({ message:'An error in submitting form',type:'error'}));
   }finally{
     setIsLoading(false);
   }

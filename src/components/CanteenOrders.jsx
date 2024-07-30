@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import OrderList from './OrderList';
 import useFetch from '../hooks/useFetch';
+import { showToast } from '../redux/reducers/toastReducer';
+import { useDispatch } from 'react-redux';
 
 const CanteenOrders = () => {
   const baseURL = process.env.REACT_APP_BASE_URL;
   const fetchData = useFetch();
+
+  const dispatch = useDispatch();
 
   const [pendingDishes, setPendingDishes] = useState([]);
   const [readyDishes, setReadyDishes] = useState([]);
@@ -19,14 +23,14 @@ const CanteenOrders = () => {
       const res = await fetchData(baseURL+'/orders'+`/${orderId}?status=paid`,'PATCH');
       //console.log(res,orderId);
       if(res) window.location.reload()
-      else alert('cannot update')
+      else dispatch(showToast({ message:'Cannot Update',type:'info'}));
       };
 
     const handleProductReadyStatus = async (orderId,productId) => {
       const res = await fetchData(baseURL+'/orders'+`/${orderId}/${productId}`,'PATCH');
       console.log(res,orderId,productId);
       if(res) window.location.reload()
-      else alert('cannot update')
+      else dispatch(showToast({ message:'Cannot Update',type:'info'}));
       };
 
   return (

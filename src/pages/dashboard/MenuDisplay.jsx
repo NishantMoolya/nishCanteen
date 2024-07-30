@@ -2,17 +2,21 @@ import React, { useEffect, useState } from 'react';
 import usePost from '../../hooks/usePost';
 import MenuSearchBar from '../../components/MenuSearchBar';
 import useFetch from '../../hooks/useFetch';
+import { showToast } from '../../redux/reducers/toastReducer';
+import { useDispatch } from 'react-redux';
 
 const MenuDish = ({ dish,handleRemove,fetchData }) => {
   const [edit, setEdit] = useState(false);
   const [value, setValue] = useState(dish.platesAvailable);
 
+  const dispatch = useDispatch();
+
   const handleEdit = async () => {
     try {
     const data = await fetchData(process.env.REACT_APP_BASE_URL+`/menu/${dish._id}`,'PATCH',{platesAvailable:value},201);
-    if(data) console.log('updated')
-    else alert('failed')
-  } catch (err){ console.log(err)}
+    if(data) dispatch(showToast({ message:'Menu updated successfully',type:'success'}));
+    else dispatch(showToast({ message:'Failed to update',type:'error'}));
+  } catch (err){ dispatch(showToast({ message:'Failed to update',type:'error'})); }
     finally{ setEdit(false)}
   }
 
@@ -33,6 +37,8 @@ const MenuDisplay = () => {
   const baseUrl = process.env.REACT_APP_BASE_URL;
   const fetchData = useFetch();
 
+  const dispatch = useDispatch();
+
   useEffect(() => {
     fetchData(baseUrl+'/menu').then(res => { if (res) setMenuDishes(res.data)});
   },[]);
@@ -51,14 +57,15 @@ const MenuDisplay = () => {
       if(!yes) return 0;
     const data = await fetchData(baseUrl+`/menu/${id}`,'DELETE');
     if(data){
-      console.log('deleted');
+      //console.log('deleted');
+      dispatch(showToast({ message:'Product deleted successfully from menu',type:'success'}));
       const copy = menuDishes.filter(item => item._id !== id);
       setMenuDishes(copy);
     }else{
-      alert('failed');
+      dispatch(showToast({ message:'An error occurred',type:'error'}));
     }
   } catch (err) {
-      
+    dispatch(showToast({ message:'An error occurred',type:'error'}));
   }
   }
 

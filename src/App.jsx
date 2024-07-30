@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import CenteredNavbar from './components/CenteredNavbar'
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import Menu from './pages/Menu'
 import Dashboard from './pages/dashboard/Dashboard'
 import Overview from './pages/dashboard/Overview'
@@ -22,6 +22,9 @@ import QrCodeScanner from './components/QRCodeScanner'
 import OrderRedeem from './pages/OrderRedeem'
 import ProtectedRoute from './components/ProtectedRoute'
 import Profile from './pages/Profile'
+import CoinCenter from './pages/CoinCenter'
+import Toast from './components/ui/Toast'
+import PrivateRoute from './components/PrivateRoute'
 
 const App = () => {
   const dispatch = useDispatch();
@@ -31,18 +34,22 @@ const App = () => {
 
   const dishData = useSelector(state => state.dish);
   const isCartEmpty = !useMemo(() => dishData.length > 0,[dishData]);
+  
+  const toast = useSelector(state => state.toast);
 
+  const location = useLocation();
   return (
     <div>
       <CenteredNavbar />
       <Routes>
         <Route path='/' element={<Home />} />
       </Routes> 
-      <div className='mt-20'>
+      <div className={`${location.pathname === '/'?'':"mt-20 min-h-screen"}`}>
       <Routes>
         <Route path='/menu' element={<Menu />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>} />
+        <Route path='/coins' element={<PrivateRoute><CoinCenter /></PrivateRoute>} />
         <Route path='/orders' element={<ProtectedRoute role={['admin','staff']}><CanteenOrders /></ProtectedRoute>} />
         <Route path='/scan' element={<ProtectedRoute role={['admin','staff']}><OrderRedeem /></ProtectedRoute>} />
         {!isCartEmpty && <Route path='/payment' element={<Payment />} />}
@@ -56,6 +63,7 @@ const App = () => {
       </Routes>
       </div>
       <Footer />
+      {toast.openToast && <Toast message={toast.message} type={toast.type} onClose={toast.onClose} duration={toast.duration} />}
     </div>
   )
 }

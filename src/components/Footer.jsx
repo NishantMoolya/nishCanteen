@@ -6,7 +6,7 @@ const Footer = () => {
         <div className="container mx-auto px-4">
             <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="mb-4 md:mb-0">
-                    <h1 className="text-xl font-bold">Digital Canteen</h1>
+                    <h1 className="text-xl font-bold">NishDigital Canteen</h1>
                     <p className="text-sm mt-2">Serving you with the best digital dishes!</p>
                 </div>
                 <div className="flex space-x-4 mb-4 md:mb-0">
@@ -15,7 +15,7 @@ const Footer = () => {
                     <a href="#" className="text-gray-400 hover:text-white">Contact Us</a>
                 </div>
                 <div className="text-sm">
-                    <p>&copy; 2024 Digital Canteen. All rights reserved.</p>
+                    <p>&copy; 2024 NishDigital Canteen. All rights reserved.</p>
                 </div>
             </div>
         </div>

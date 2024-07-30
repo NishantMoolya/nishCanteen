@@ -1,11 +1,10 @@
 import React from 'react'
-import dish1 from '../assets/dish1.avif'
-import { NavLink } from 'react-router-dom'
 import Button from './ui/Button'
 import Chip from './ui/Chip'
 import Ratings from './ui/Ratings'
+import Coin from './ui/Coin'
 
-const Dish = ({ dark=false,dish,order=true,addToCart }) => {
+const Dish = ({ dark=false,dish,order=true,addToCart,auth=false }) => {
   return (
     <div>
         <div className={`bg-white flex flex-col rounded-2xl text-slate-500 w-72 shadow overflow-hidden`}>
@@ -21,12 +20,12 @@ const Dish = ({ dark=false,dish,order=true,addToCart }) => {
                 <Ratings value={dish.rating} />
                 <div className='flex gap-1'>
                   {
-                    dish?.tags?.map((tag,ind) => <Chip text={tag} />)
+                    dish?.tags?.map((tag) => <Chip text={tag} />)
                   }
                 </div>
                 {order && <div className='flex justify-between items-center flex-1'>
-                <span className={`text-green-500 text-3xl font-semibold`}>Rs{dish.price}</span>
-                <Button text={'order now'} handleClick={addToCart} />
+                <span className={`text-green-500 text-3xl font-semibold`}><Coin amount={dish.price} /></span>
+                <Button text={'order now'} handleClick={addToCart} disabled={!auth} />
                 </div>}
             </section>
         </div>

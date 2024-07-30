@@ -58,4 +58,18 @@ const changeAvatar = createAsyncThunk("changeAvatar", async (data) => {
     }
 });
 
-export { authenticate,userLogout,getUserProfile,changeAvatar };
+const purchaseCoins = createAsyncThunk("purchaseCoins", async (amount) => {
+    try {
+        const res = await fetch(`${baseURL}/wallet`,{
+            method:"POST",
+            headers:{"Content-Type":"application/json"},
+            credentials:'include',
+            body:JSON.stringify({amount})
+        });
+        return await res.json();
+    } catch (err) {
+        console.log(`an error in authenticating user:${err}`);
+    }
+});
+
+export { authenticate,userLogout,getUserProfile,changeAvatar,purchaseCoins };

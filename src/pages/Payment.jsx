@@ -3,8 +3,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import Button from '../components/ui/Button'
 import useFetch from '../hooks/useFetch'
 import { clearCart } from '../redux/reducers/dishReducer'
-import { addToken } from '../redux/reducers/userReducer'
+import { addToken, updateCoinBalance } from '../redux/reducers/userReducer'
 import { useNavigate } from 'react-router-dom'
+import { showToast } from '../redux/reducers/toastReducer'
 
 const DishList = ({ dish }) => {
   return(<div className={`bg-white flex gap-2 text-slate-500 sm:w-full overflow-hidden`}>
@@ -33,10 +34,11 @@ const Payment = () => {
     if(res){
       dispatch(clearCart());
       dispatch(addToken(res.data));
-      alert('paid and order placed');
-      navigate('/');
+      dispatch(updateCoinBalance(amount));
+      dispatch(showToast({ message:'Paid and Order placed',type:'success'}));
+      navigate('/menu');
     }else{
-      alert('cannot place order');
+      dispatch(showToast({ message:'Cannot place order',type:'error'}));
     }
   }
 

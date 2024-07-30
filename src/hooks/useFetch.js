@@ -15,8 +15,9 @@ const useFetch = () => {
                 options = {...options,body:JSON.stringify(postData)};                
             }
             const res = await fetch(url,options);
-            const data = await res.json();
+            let data = await res.json();
             if (res.status === validStatus) {
+                data.status = res.status;
                 return data;
             }else{
                 throw new Error('Invalid status code and response');

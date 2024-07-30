@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { authenticate, changeAvatar, getUserProfile, userLogout } from '../api/userApi';
+import { authenticate, changeAvatar, getUserProfile, purchaseCoins, userLogout } from '../api/userApi';
 
 const initialUser = {
     name:"",
@@ -8,6 +8,7 @@ const initialUser = {
     tokens:[],
     coinBalance:0,
     role:'user',
+    type:'outsider',
     auth:false
 }
 
@@ -17,12 +18,15 @@ const userSlice = createSlice({
     reducers:{
         login:(state) => {
             state.auth = true;
-            //console.log("state:",state);
         },
         addToken:(state,action) => {
           const token = action.payload;
           state.tokens.push(token);
-      }
+      },
+      updateCoinBalance:(state,action) => {
+        const amount = action.payload;
+        state.coinBalance += amount;
+    }
     },
     extraReducers:(builder) => {
         builder.addCase(authenticate.pending, (state, action) => {
@@ -52,10 +56,16 @@ const userSlice = createSlice({
             const { avatar,authenticate } = action.payload;
             console.log(action.payload);
             if(avatar && authenticate) return {...state,avatar:avatar,auth:authenticate}
+          });
+
+          builder.addCase(purchaseCoins.fulfilled, (state,action) => {
+            const { coinBalance } = action.payload.data;
+            console.log(coinBalance);
+            if(coinBalance) return {...state,coinBalance:state.coinBalance+coinBalance}
           })
       }
 });
 
-export const { login,addToken } = userSlice.actions;
+export const { login,addToken,updateCoinBalance } = userSlice.actions;
 
 export default userSlice.reducer;
