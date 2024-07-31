@@ -9,7 +9,7 @@ import { showToast } from '../redux/reducers/toastReducer'
 
 const DishList = ({ dish }) => {
   return(<div className={`bg-white flex gap-2 text-slate-500 sm:w-full overflow-hidden`}>
-    <img src={"https://images.pexels.com/photos/4331489/pexels-photo-4331489.jpeg?auto=compress&cs=tinysrgb&w=600"} alt="dish" className='w-16 h-16 rounded' />
+    <img src={dish.image} alt="dish" className='w-16 h-16 rounded' />
     <section className={`flex flex-col justify-center flex-1 gap-1`}>
         <h5 className={`text-slate-900 first-letter:capitalize font-bold text-base`}>{dish.name}</h5>
         <p>Rs{dish.price} x {dish.quantity} = <span className='font-semibold'>Rs{dish.price*dish.quantity}</span></p>
