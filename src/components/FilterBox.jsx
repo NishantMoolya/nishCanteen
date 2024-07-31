@@ -8,7 +8,7 @@ const Checkbox = ({ label,handleChange,selected }) => {
   }
 
 const FilterBox = ({ closeFilter,handleFilter,handleClear,filter }) => {
-  const initialCategory = ['lunch','snacks','breakfast','fastfood'];
+  const initialCategory = ['lunch','snacks','breakfast','fastfood','dessert'];
   const [category, setCategory] = useState(filter.category);
   const [range, setRange] = useState({ min:filter.startPrice, max:filter.endPrice });
 

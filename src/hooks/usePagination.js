@@ -6,7 +6,8 @@ const usePagination = (url) => {
                 method:"GET",
                 headers:{
                     'Content-Type':'application/json'
-                }
+                },
+                credentials:'include'
             };
                 const res = await fetch(baseUrl+url+`/?page=${page}`,options);
                 const resData = await res.json();

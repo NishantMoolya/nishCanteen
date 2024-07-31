@@ -10,7 +10,7 @@ const EditDish = ({ dark=false,dish,order=true,handleEdit }) => {
     <div>
         <div className={`bg-white flex flex-col rounded-2xl text-slate-500 w-72 shadow overflow-hidden`}>
           <div className='overflow-hidden relative'>
-            <img src={"https://images.pexels.com/photos/4331489/pexels-photo-4331489.jpeg?auto=compress&cs=tinysrgb&w=600"} alt="dish" className='w-full h-52 hover:scale-105 hover:-rotate-2 transition-all duration-200' />
+            <img src={dish.image} alt="dish" className='w-full h-52 hover:scale-105 hover:-rotate-2 transition-all duration-200' />
             <span className='absolute top-2 right-4' onClick={handleEdit}><p className='text-green-600 text-xl'><i className="fa-solid fa-pen-to-square"></i></p></span>
           </div>
             <section className={`flex flex-col p-3 border-b-[1px] flex-1 gap-1`}>

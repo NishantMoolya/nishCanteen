@@ -8,6 +8,8 @@ import { userLogout } from '../redux/api/userApi'
 import { getRoleBasedLinks } from '../helpers/routeHelper'
 import { clearCart } from '../redux/reducers/dishReducer'
 import { showToast } from '../redux/reducers/toastReducer'
+import { AnimatePresence, motion } from 'framer-motion'
+import { cart, menu, mobileMenu } from '../animations/navbarAnim'
 
 const Link = ({ label, route,indicate,handleClick=() => {} }) => {
   return(<li className='hover:text-slate-500 relative capitalize text-sm text-center font-semibold' onClick={handleClick}><NavLink to={route} className={'navbar'}>{label}</NavLink>
@@ -41,7 +43,7 @@ const CenteredNavbar = () => {
 
   return (
     <>
-    <nav className={`flex items-center sm:justify-between px-6 bg-white py-3 shadow fixed z-30 top-2 right-2 left-2 rounded-2xl`}>
+    <motion.nav className={`flex items-center sm:justify-between px-6 bg-white py-3 shadow fixed z-30 top-2 right-2 left-2 rounded-2xl`} variants={menu} initial='start' animate='end'>
       <div className='text-green-500 mr-auto sm:mr-0'><NavLink to={'/'}>logo</NavLink></div>
 
       <ul className={`sm:flex flex-1 justify-center items-center gap-9 hidden capitalize text-sm text-center font-semibold text-black flex-wrap`}>
@@ -72,11 +74,13 @@ const CenteredNavbar = () => {
        }
        <span onClick={() => setOpen(false)}>{!auth?<NavLink to={'/login'}><OutlineButton text={'login'} ><i className="fa-solid fa-right-to-bracket"></i></OutlineButton></NavLink>:<OutlineButton text={'logout'} handleClick={() => {dispatch(clearCart());dispatch(userLogout());dispatch(showToast({ message:'User logged out',type:'success'}));}} color={true}><i className="fa-solid fa-right-from-bracket"></i></OutlineButton>}</span>
       </ul>
+      <AnimatePresence>
     {(auth && viewOrder) && 
-    <div className='absolute top-16 left-0 right-0 mt-1 z-10'>
+    <motion.div className='absolute top-16 left-0 right-0 mt-1 z-10' variants={cart} initial='hidden' animate='visible' exit={'hidden'}>
     <Checkout closeCart={closeCart} />
-    </div>} 
-    </nav>
+    </motion.div>} 
+      </AnimatePresence>
+    </motion.nav>
          </>
   )
 }

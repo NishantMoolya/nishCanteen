@@ -7,7 +7,8 @@ const usePost = (url,params = '/',method) => {
             headers:{
                 'Content-Type':'application/json'
             },
-            body:JSON.stringify(data)
+            body:JSON.stringify(data),
+            credentials:'include'
         };
         console.log(baseUrl+url+params);
             const res = await fetch(baseUrl+url+'/'+params,options);

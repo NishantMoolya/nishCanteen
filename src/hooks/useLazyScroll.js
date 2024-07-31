@@ -40,7 +40,7 @@ const useLazyScroll = () => {
                 headers:{
                     'Content-Type':'application/json'
                 },
-                crendentials:'include'
+                credentials:'include'
             };
 
             if (method !== 'GET') {

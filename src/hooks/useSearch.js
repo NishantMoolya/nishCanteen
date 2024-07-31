@@ -7,8 +7,15 @@ const useSearch = (link) => {
 
     const getData = async () => {
         const url = `${link}?query=${search}`;
+        let options = {
+            method:"GET",
+            headers:{
+                'Content-Type':'application/json'
+            },
+            credentials:'include'
+        };
         try {
-            const res = await fetch(url);
+            const res = await fetch(url,options);
             const data = await res.json();
             if (res.status === 200) {
                 //console.log(data);
